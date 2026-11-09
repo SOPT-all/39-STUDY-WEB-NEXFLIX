@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🔨 Week2 실습: App Router 라우팅 (mission)
 
-## Getting Started
+`pnpm install` → `pnpm dev`
 
-First, run the development server:
+헤더, 카드, 모달, 프로필 화면은 준비돼 있어요. **라우팅 파일만** 만들면 돼요!
+막히면 `../sample` 에서 같은 경로의 파일을 열어보세요.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+| 미션 | 주제                      | 만들 파일                                                                            | 확인                                 |
+| ---- | ------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------ |
+| 1    | 📂 파일 기반 라우팅       | `app/(main)/browse/page.tsx`                                                         | `/browse` 에 작품 목록               |
+| 2    | 🎨 Layout                 | `app/(main)/layout.tsx`                                                              | 헤더 생김, 이동해도 검색창 글자 유지 |
+| 3    | 🧭 동적 라우팅            | `app/(main)/title/[id]/page.tsx`, `app/(main)/genre/[...slug]/page.tsx`              | `/title/1`, `/genre/action/korean`   |
+| 4    | 📂 특수 파일 + Colocation | `title/[id]/` 에 `loading`, `not-found`, `movie-info`, `like-button`                 | 로딩 화면, `/title/999`, `useParams` |
+| 5    | 🫂 Route Groups           | `app/(watch)/layout.tsx`, `app/(watch)/watch/[id]/page.tsx`                          | `/watch/1` 헤더 없음                 |
+| 6    | 🗺️ Parallel Routes        | `app/(main)/my-list/` 에 `layout`, `page`, `@watching`, `@recommend`                 | 두 영역이 따로 뜸                    |
+| 7    | 📍 Intercepting Routes    | `app/@modal/` 에 `default`, `(.)title/[id]`, `[...catchAll]` + `app/layout.tsx` 수정 | 포스터 클릭 → 모달                   |
+| 8    | ✨ Proxy                  | `proxy.ts` (`app` 옆!)                                                               | 프로필 없으면 `/profiles` 로         |
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> 💡 `PageProps<"/title/[id]">` 타입은 `pnpm dev` 가 켜져 있어야 생겨요.

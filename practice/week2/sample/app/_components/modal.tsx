@@ -9,9 +9,11 @@ export default function Modal({ children }: { children: React.ReactNode }) {
   return (
     <div className="overlay" onClick={() => router.back()}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <button className="btn" onClick={() => router.back()}>
-          ✕
-        </button>
+        <div style={{ textAlign: "right", marginBottom: 16 }}>
+          <button className="btn" onClick={() => router.back()}>
+            ✕
+          </button>
+        </div>
         {children}
       </div>
     </div>

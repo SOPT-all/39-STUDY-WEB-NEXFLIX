@@ -19,14 +19,17 @@ export default function ProfilesPage() {
       <span className="file-label">app/(auth)/profiles/page.tsx</span>
       <h1>프로필을 선택하세요</h1>
       <form action={selectProfile} className="chips">
-        <button name="name" value="유림" className="btn">
-          유림
-        </button>
         <button name="name" value="채원" className="btn">
           채원
         </button>
+        <button name="name" value="유림" className="btn">
+          유림
+        </button>
         <button name="name" value="효정" className="btn">
           효정
+        </button>
+        <button name="name" value="해니" className="btn">
+          해니
         </button>
         <button name="name" value="기훈" className="btn">
           기훈

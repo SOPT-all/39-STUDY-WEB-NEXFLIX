@@ -1,5 +1,9 @@
 # 넥플릭스 3주차 Rendering Lab
 
+[발표·실습 페이지 열기](https://nexflix-rendering-lab.vercel.app)
+
+배포 링크에서 개념 설명과 블록 실습을 따라갈 수 있습니다. 사전 과제 코드는 아래 mission 폴더에서 작성합니다.
+
 ```sh
 pnpm install
 npm run dev

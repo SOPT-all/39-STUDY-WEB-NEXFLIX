@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { members, topics, type Mission } from './missions';
 
 function PreviewFrame({
@@ -30,19 +31,22 @@ function PreviewFrame({
   );
 }
 
-export default function RenderingLab() {
-  const [topic, setTopic] = useState(topics[0]);
-  const [mission, setMission] = useState(topic.missions[0]);
+export default function RenderingLab({ topic, mission, origin }: {
+  topic: (typeof topics)[number];
+  mission: Mission;
+  origin?: string;
+}) {
+  const router = useRouter();
   const [added, setAdded] = useState(false);
   const [run, setRun] = useState<{ mode: 'single' | 'compare'; added: boolean; count: number } | null>(null);
 
   const isComparing = run?.mode === 'compare';
 
   function selectMission(next: Mission) {
-    if (next === mission) return;
-    setMission(next);
-    setAdded(false);
-    setRun(null);
+    if (next.id === mission.id) return;
+    const query = new URLSearchParams({ step: next.id });
+    if (origin) query.set('from', origin);
+    router.push('/lab?' + query, { scroll: false });
   }
 
   function execute(mode: 'single' | 'compare') {
@@ -50,35 +54,38 @@ export default function RenderingLab() {
   }
 
   return (
-    <main className="lab">
-      <header>
+    <main className="lab lab-page">
+      <header className="page-heading">
         <div className="lab-heading">
           <p className="series">넥플릭스 3주차</p>
           <nav className="actions" aria-label="학습 페이지">
-            <Link href="/" className="text-link">개념 다시 보기</Link>
-            <Link href="/mission" className="text-link">코드 채우기</Link>
+            <Link href={'/concepts/' + (origin ?? mission.explanationStep)} className="text-link">
+              <span aria-hidden="true">← </span>설명으로 돌아가기
+            </Link>
+            <Link href="/mission" className="text-link">과제 해설</Link>
           </nav>
         </div>
-        <h1>Rendering Lab</h1>
+        <h1>블록 실습</h1>
+        <p className="intro-description">사전 과제에서 익힌 개념을 새로운 조건에 적용해 보세요. 결과를 예상한 뒤 두 상태를 비교합니다.</p>
       </header>
       <nav aria-label="실습 주제" className="missions">
         {topics.map((item) => (
-          <button key={item.label} aria-pressed={item === topic} onClick={() => {
-            setTopic(item);
-            selectMission(item.missions[0]);
-          }}>
+          <button key={item.label} aria-pressed={item.label === topic.label} onClick={() => selectMission(item.missions[0])}>
             {item.label}
           </button>
         ))}
       </nav>
       <nav aria-label="세부 미션" className="missions tasks">
         {topic.missions.map((item) => (
-          <button key={item.id} aria-pressed={item === mission} onClick={() => selectMission(item)}>
+          <button key={item.id} aria-pressed={item.id === mission.id} onClick={() => selectMission(item)}>
             {item.title}
           </button>
         ))}
       </nav>
-      <p className="question">{mission.question}</p>
+      <section className="lab-challenge">
+        <h2>{mission.title}</h2>
+        <p>{mission.question}</p>
+      </section>
       <div className={isComparing ? "workspace comparing" : "workspace"}>
         <section className="panel" aria-labelledby="blocks">
           <h2 id="blocks">블록 조합</h2>

@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { connection } from 'next/server';
 import { members } from '../missions';
-import { ClientPanel, Counter } from './client-panel';
+import { ClientPanel, Counter, ElapsedDemo } from './client-panel';
 
 async function readMembers(names = members, delay = 2500) {
   await new Promise<void>((resolve) => setTimeout(resolve, delay));
@@ -39,10 +39,33 @@ function ServerHeading() {
 export default async function Preview({
   searchParams,
 }: {
-  searchParams: Promise<{ mission?: string; block?: string }>;
+  searchParams: Promise<{ mission?: string; block?: string; exercise?: string; message?: string; increment?: string }>;
 }) {
-  const { mission, block } = await searchParams;
+  const { mission, block, exercise, message, increment } = await searchParams;
   const added = block === '1';
+
+  if (mission === 'reuse-panels') {
+    return (
+      <main className="result">
+        <section>
+          <ClientPanel heading="첫 번째 그룹">
+            <MemberList names={members.slice(0, 4)} />
+          </ClientPanel>
+        </section>
+        {added && (
+          <section>
+            <ClientPanel heading="두 번째 그룹">
+              <MemberList names={members.slice(4)} />
+            </ClientPanel>
+          </section>
+        )}
+      </main>
+    );
+  }
+
+  if (mission === 'after-hydration') {
+    return <main className="result"><ElapsedDemo running={added} /></main>;
+  }
 
   if (mission === 'composition' || mission === 'slots') {
     return (
@@ -54,16 +77,37 @@ export default async function Preview({
     );
   }
 
+  if (mission === 'hydration' && exercise !== '1') {
+    return (
+      <main className="result">
+        <ClientPanel><ServerMemberList /></ClientPanel>
+      </main>
+    );
+  }
+
   if (mission === 'hydration' || mission === 'initial-state') {
     return (
       <main className="result">
         <h2>{mission === 'hydration' ? '카운터' : '참여자 수'}</h2>
-        <Counter initialCount={mission === 'initial-state' && added ? members.length : 0} />
+        <Counter exercise={exercise === '1'} interactive={exercise !== '1' || added} serverCount={members.length}
+          increment={increment && /^[1-9][0-9]?$/.test(increment) ? Number(increment) : 1} initialCount={mission === 'initial-state' && added ? members.length : 0} />
       </main>
     );
   }
 
   await connection();
+
+  if (mission === 'await-position') {
+    const names = added ? null : await readMembers();
+    return (
+      <main className="result">
+        <h2>스터디원 목록</h2>
+        <Suspense fallback={<Loading label="스터디원" />}>
+          {names ? <MemberList names={names} /> : <SlowMemberList />}
+        </Suspense>
+      </main>
+    );
+  }
 
   if (mission === 'boundaries') {
     return (
@@ -87,7 +131,7 @@ export default async function Preview({
     <main className="result">
       <h2>스터디원 목록</h2>
       {names ? <MemberList names={names} /> : (
-        <Suspense fallback={<Loading label="스터디원" />}><SlowMemberList /></Suspense>
+        <Suspense fallback={exercise === '1' ? <p role="status">{message?.slice(0, 100) || '스터디원 불러오는 중…'}</p> : <Loading label="스터디원" />}><SlowMemberList /></Suspense>
       )}
     </main>
   );

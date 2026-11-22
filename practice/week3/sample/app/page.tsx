@@ -1,5 +1,7 @@
+import { movies } from '@/lib/movies';
 import LikeButton from './like-button';
 import MovieList from './movie-list';
+import RateButton from './rate-button';
 import TogglePanel from './toggle-panel';
 
 export default function Home() {
@@ -19,6 +21,11 @@ export default function Home() {
         <TogglePanel>
           <MovieList />
         </TogglePanel>
+      </section>
+
+      <section>
+        <h2>미션 3. 직렬화 가능한 props만 넘기기</h2>
+        <RateButton movie={movies[1]} />
       </section>
     </main>
   );

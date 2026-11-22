@@ -1,5 +1,16 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
 
+:root {
+  --bg: #0f0f10;
+  --surface: #1a1a1c;
+  --surface-hover: #232326;
+  --border: #2c2c30;
+  --text: #f2f2f3;
+  --text-sub: #9a9aa2;
+  --accent: #e50914;
+  --accent-hover: #f6121d;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -7,44 +18,110 @@
 body {
   max-width: 720px;
   margin: 0 auto;
-  padding: 40px 32px;
+  padding: 56px 32px 80px;
   font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif;
-  background: #141414;
-  color: #f5f5f5;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  margin: 0 0 32px;
+  padding-left: 14px;
+  border-left: 4px solid var(--accent);
+  font-size: 26px;
+  font-weight: 800;
 }
 
 nav {
   display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 8px;
+  margin-bottom: 32px;
 }
 
-a {
-  color: #e50914;
+nav a {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-sub);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  border-color: var(--accent);
+  color: var(--text);
 }
 
 section {
-  margin-bottom: 24px;
-  padding: 16px;
-  border: 1px solid #333;
-  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
 }
 
 h2 {
-  margin-top: 0;
-  font-size: 18px;
+  margin: 0 0 16px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+p {
+  margin: 12px 0 0;
+  color: var(--text-sub);
 }
 
 button {
   font: inherit;
-  padding: 6px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 18px;
   border: none;
-  border-radius: 4px;
-  background: #e50914;
+  border-radius: 8px;
+  background: var(--accent);
   color: #fff;
   cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+button:hover {
+  background: var(--accent-hover);
+}
+
+button:active {
+  transform: scale(0.97);
 }
 
 ul {
-  padding-left: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  transition: background 0.15s;
+}
+
+li:hover {
+  background: var(--surface-hover);
+}
+
+@media (max-width: 520px) {
+  body {
+    padding: 32px 16px 56px;
+  }
+
+  ul {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,8 +1,7 @@
-import { cookies } from 'next/headers';
-
-export default async function DynamicPage() {
-  const cookieStore = await cookies();
-  const name = cookieStore.get('name')?.value ?? '웹토리';
+export default function DynamicPage() {
+  // TODO(미션 4): next/headers의 cookies()로 name 쿠키를 읽어 name에 넣어보세요.
+  // 쿠키가 없으면 '웹토리'를 사용합니다. cookies()는 Promise를 반환하므로 await가 필요합니다.
+  const name = '웹토리';
 
   console.log('[DynamicPage] 렌더링');
 
